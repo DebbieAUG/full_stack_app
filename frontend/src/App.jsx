@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const API_URL = "https://your-backend.onrender.com";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [notes, setNotes] = useState([]);
+    const [newNote, setNewNote] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        axios.get(`${API_URL}/notes`).then(res => setNotes(res.data));
+    }, []);
+
+    const addNote = () => {
+        axios.post(`${API_URL}/notes`, { text: newNote }).then(res => {
+            setNotes([...notes, res.data]);
+            setNewNote("");
+        });
+    };
+
+    const deleteNote = (id) => {
+        axios.delete(`${API_URL}/notes/${id}`).then(() => {
+            setNotes(notes.filter(note => note.id !== id));
+        });
+    };
+
+    return (
+        <div>
+            <h1>Quick Notes</h1>
+            <input 
+                value={newNote} 
+                onChange={(e) => setNewNote(e.target.value)} 
+                placeholder="Type a note..."
+            />
+            <button onClick={addNote}>Add</button>
+            <ul>
+                {notes.map(note => (
+                    <li key={note.id}>
+                        {note.text} 
+                        <button onClick={() => deleteNote(note.id)}>❌</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
 
-export default App
+export default App;
