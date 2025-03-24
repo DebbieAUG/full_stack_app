@@ -1,34 +1,35 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import ReactMarkdown from "react-markdown";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  const [notes, setNotes] = useState([]);
-  const [text, setText] = useState("");
-
-  useEffect(() => {
-    axios.get("https://your-backend-url.onrender.com/notes")
-      .then(res => setNotes(res.data));
-  }, []);
-
-  const addNote = async () => {
-    const res = await axios.post("https://your-backend-url.onrender.com/notes", { text });
-    setNotes([...notes, res.data]);
-    setText("");
-  };
+  const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <h1>Markdown Notes</h1>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} />
-      <button onClick={addNote}>Save</button>
-      {notes.map((note, index) => (
-        <div key={index}>
-          <ReactMarkdown>{note.text}</ReactMarkdown>
-        </div>
-      ))}
-    </div>
-  );
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default App;
+export default App
