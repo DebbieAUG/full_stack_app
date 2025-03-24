@@ -24,3 +24,4 @@ const saveNotes = (notes) => {
 // Get all notes
 app.get("/notes", (req, res) => {
     res.json(loadNotes());
+}
