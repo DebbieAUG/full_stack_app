@@ -1,12 +1,10 @@
 // src/api.js
 
 import axios from 'axios';
-import cors from 'cors';
-app.use(cors());
 
 
 // Base API URL for the backend
-const API_URL = 'http://localhost:5000/api/products';
+const API_URL = 'https://cuddly-cod-wx47pwvpv9vcwx7-5000.app.github.dev/';
 
 const api = axios.create({
   baseURL: API_URL,
