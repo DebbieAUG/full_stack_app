@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 // Base API URL for the backend
-const API_URL = '';
+const API_URL = 'https://cuddly-cod-wx47pwvpv9vcwx7-5000.app.github.dev/';
 
 const api = axios.create({
   baseURL: API_URL,
